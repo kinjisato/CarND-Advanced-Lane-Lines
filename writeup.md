@@ -57,7 +57,7 @@ I corrected the images with using the `cv2.undistort()`, and its parameters `mtx
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used a combination of color and gradient thresholds to generate a binary image.  Here's an example of my output for this step. I applied this steps to the undistorted images those generated above distortion-correction.
 
 ![alt text][image3]
 
