@@ -29,7 +29,7 @@ The goals / steps of this project are the following:
 [image9]: ./output_images/lanes/sliding_window.png "sliding window"
 [image10]: ./output_images/lanes/selection_window.png "selection window"
 [image11]: ./output_images/projected/1_projected.jpg "projected image"
-[video1]: ./project_video.mp4 "Video"
+[video1]: ./project_video_output.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
@@ -263,7 +263,9 @@ I applied all of the methods descriebed avobe, I got this image.
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here is a link to my [project code](https://github.com/kinjisato/CarND-Advanced-Lane-Lines/blob/master/P03_AdvancedLaneLines_video_003.ipynb).
+
+Here's a [link to my video result](./project_video_output.mp4)
 
 ---
 
