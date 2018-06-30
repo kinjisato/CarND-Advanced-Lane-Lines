@@ -1,6 +1,6 @@
-## Writeup
+## Writeup CarND-Advanced-Lane-Lines
 
-### Kinji Sato 30th/June/2018
+### Kinji Sato  30th/June/2018
 ---
 
 **Advanced Lane Finding Project**
@@ -24,7 +24,8 @@ The goals / steps of this project are the following:
 [image4]: ./output_images/binary_imagds/color_binary.png "binary, colored"
 [image5]: ./output_images/code_description/transform.png "code transform"
 [image6]: ./output_images/code_description/perspective_transform.png "code perspective transform"
-[image7]: .//output_images/perspective_transform_images/sl1.png "perspective transform result"
+[image7]: ./output_images/perspective_transform_images/sl1.png "perspective transform result"
+[image8]: ./output_images/code_description/histgram.png "histgram"
 [video1]: ./project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -109,6 +110,42 @@ I verified that my perspective transform was working as expected by drawing the 
 ![alt text][image7]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+
+First, I took the histgram of the half of warped binary image to find the peaks those might be lane lines. 
+
+![alt text][image8]
+
+And then, I applied sliding window methods to find the pixels those might be lane lines step by step in the image.
+
+```python
+for window in range(nwindows):
+    # Identify window boundaries in x and y (and right and left)
+    win_y_low = binary_warped.shape[0] - (window+1)*window_height
+    win_y_high = binary_warped.shape[0] - window*window_height
+    win_xleft_low = leftx_current - margin
+    win_xleft_high = leftx_current + margin
+    win_xright_low = rightx_current - margin
+    win_xright_high = rightx_current + margin
+    # Draw the windows on the visualization image
+    cv2.rectangle(out_img,(win_xleft_low,win_y_low),(win_xleft_high,win_y_high),
+    (0,255,0), 2) 
+    cv2.rectangle(out_img,(win_xright_low,win_y_low),(win_xright_high,win_y_high),
+    (0,255,0), 2) 
+    # Identify the nonzero pixels in x and y within the window
+    good_left_inds = ((nonzeroy >= win_y_low) & (nonzeroy < win_y_high) & 
+    (nonzerox >= win_xleft_low) &  (nonzerox < win_xleft_high)).nonzero()[0]
+    good_right_inds = ((nonzeroy >= win_y_low) & (nonzeroy < win_y_high) & 
+    (nonzerox >= win_xright_low) &  (nonzerox < win_xright_high)).nonzero()[0]
+    # Append these indices to the lists
+    left_lane_inds.append(good_left_inds)
+    right_lane_inds.append(good_right_inds)
+    # If you found > minpix pixels, recenter next window on their mean position
+    if len(good_left_inds) > minpix:
+        leftx_current = np.int(np.mean(nonzerox[good_left_inds]))
+    if len(good_right_inds) > minpix:        
+        rightx_current = np.int(np.mean(nonzerox[good_right_inds]))
+```
+
 
 Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
 
