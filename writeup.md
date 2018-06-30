@@ -273,4 +273,6 @@ Here's a [link to my video result](./project_video_output.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+First, I used sliding window only for detecting pipelines. But when the car is running on the shiny area (around 40sec from start), my program detected the edge of the road and the left wall as left lane. This problem was not solved with the tuning parameter of `margin` and `minpix` in the sliding window function. So, I combined the other one (described above) after once sliding window detected pipelane. This gave better result for issued shiny area, but, when black car was comming from right side, my code detected this car. So, I reduced the `margin`, and then resut became better.
+
+Futhur more, it is better to use some fileter (time domain) to make more stable. And maybe it is better to implement some check function to avoid mis-detectimg pipelane and make it more stable. I think with using the Python "class" structure could give better coding and resolve issues.
