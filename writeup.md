@@ -20,9 +20,9 @@ The goals / steps of this project are the following:
 
 [image1]: ./output_images/undst_camera/camera_calibration.png "Undistorted"
 [image2]: ./output_images/undst_test_images/test5_undist.jpg "Road Transformed"
-[image3]: ./output_images/binary_imagds/test5_binary.jpg "Binary Example"
+[image3]: ./output_images/binary_imagds/test4_binary.jpg "Binary Example"
 [image4]: ./output_images/binary_imagds/color_binary.png "binary, colored"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
+[image5]: ./output_images/code_description/transform.png "code transform"
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
 
@@ -58,6 +58,10 @@ I corrected the images with using the `cv2.undistort()`, and its parameters `mtx
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
 I used a combination of color and gradient thresholds to generate a binary image.  Here's an example of my output for this step. I applied this steps to the undistorted images those generated above distortion-correction.
+
+My code is,
+
+![alt text][image5]
 
 The points colored green are came from sobel x gradient (l channel), and points colored blue are came from color threshold of s channel.
 
