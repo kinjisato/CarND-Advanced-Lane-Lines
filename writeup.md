@@ -19,7 +19,7 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./output_images/undst_camera/camera_calibration.png "Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
+[image2]: ./output_images/undst_test_images/test5_undist.jpg "Road Transformed"
 [image3]: ./examples/binary_combo_example.jpg "Binary Example"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
@@ -34,11 +34,9 @@ The goals / steps of this project are the following:
 
 ### Camera Calibration
 
+Here is a link to my [project code](https://github.com/kinjisato/CarND-Advanced-Lane-Lines/blob/master/P01_camera_calibration.ipynb).
+
 #### 1. Briefly state how I computed the camera matrix and distortion coefficients. Examples of a distortion corrected calibration images are provided in the directory, ./output_images/undst_camera/
-
-My python code is named as 'P01_camera_calibration.ipynb'.
-Here is a link to my [project code](https://github.com/kinjisato/CarND-Advanced-Lane-Lines/blob/master/P01_camera_calibration.ipynb)
-
 
 start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
@@ -48,10 +46,14 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ### Pipeline (single images)
 
+Here is a link to my [project code](https://github.com/kinjisato/CarND-Advanced-Lane-Lines/blob/master/P02_test_image_pipeline.ipynb).
+
 #### 1. Provide an example of a distortion-corrected image.
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
 ![alt text][image2]
+
+I corrected the images with using the `cv2.undistort()`, and its parameters `mtx` and `dist` were carried from the camera calibration I descrived above.
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
