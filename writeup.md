@@ -28,6 +28,7 @@ The goals / steps of this project are the following:
 [image8]: ./output_images/code_description/histgram.png "histgram"
 [image9]: ./output_images/lanes/sliding_window.png "sliding window"
 [image10]: ./output_images/lanes/selection_window.png "selection window"
+[image11]: ./output_images/projected/1_projected.jpg "projected image"
 [video1]: ./project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -252,9 +253,9 @@ else:
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+I applied all of the methods descriebed avobe, I got this image.
 
-![alt text][image6]
+![alt text][image11]
 
 ---
 
