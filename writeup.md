@@ -1,7 +1,6 @@
-## Writeup Template
+## Writeup
 
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
+### Kinji Sato 30th/June/2018
 ---
 
 **Advanced Lane Finding Project**
