@@ -20,7 +20,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./output_images/undst_camera/camera_calibration.png "Undistorted"
 [image2]: ./output_images/undst_test_images/test5_undist.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
+[image3]: ./output_images/binary_imagds/test5_binary.jpg "Binary Example"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
