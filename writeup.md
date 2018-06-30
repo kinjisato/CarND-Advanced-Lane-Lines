@@ -26,6 +26,8 @@ The goals / steps of this project are the following:
 [image6]: ./output_images/code_description/perspective_transform.png "code perspective transform"
 [image7]: ./output_images/perspective_transform_images/sl1.png "perspective transform result"
 [image8]: ./output_images/code_description/histgram.png "histgram"
+[image9]: ./output_images/lanes/sliding_window.png "sliding window"
+[image10]: ./output_images/lanes/selection_window.png "selection window"
 [video1]: ./project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -146,10 +148,54 @@ for window in range(nwindows):
         rightx_current = np.int(np.mean(nonzerox[good_right_inds]))
 ```
 
+And, the polynomial lines are computed with using following function `np.polyfit(y, x, 2)`, the order is 2nd.
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+```python
+left_fit = np.polyfit(lefty, leftx, 2)
+right_fit = np.polyfit(righty, rightx, 2)
+```
 
-![alt text][image5]
+The result of sliding window method is,
+
+![alt text][image9]
+
+Once I got lane lines images, after that, I applied the other method (same as the lecture video).
+The code is,
+
+```python
+# Assume you now have a new warped binary image 
+# from the next frame of video (also called "binary_warped")
+# It's now much easier to find line pixels!
+nonzero = binary_warped.nonzero()
+nonzeroy = np.array(nonzero[0])
+nonzerox = np.array(nonzero[1])
+margin = 100
+left_lane_inds = ((nonzerox > (left_fit[0]*(nonzeroy**2) + left_fit[1]*nonzeroy + 
+left_fit[2] - margin)) & (nonzerox < (left_fit[0]*(nonzeroy**2) + 
+left_fit[1]*nonzeroy + left_fit[2] + margin))) 
+
+right_lane_inds = ((nonzerox > (right_fit[0]*(nonzeroy**2) + right_fit[1]*nonzeroy + 
+right_fit[2] - margin)) & (nonzerox < (right_fit[0]*(nonzeroy**2) + 
+right_fit[1]*nonzeroy + right_fit[2] + margin)))  
+
+# Again, extract left and right line pixel positions
+leftx = nonzerox[left_lane_inds]
+lefty = nonzeroy[left_lane_inds] 
+rightx = nonzerox[right_lane_inds]
+righty = nonzeroy[right_lane_inds]
+# Fit a second order polynomial to each
+left_fit = np.polyfit(lefty, leftx, 2)
+right_fit = np.polyfit(righty, rightx, 2)
+# Generate x and y values for plotting
+ploty = np.linspace(0, binary_warped.shape[0]-1, binary_warped.shape[0] )
+left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+```
+With using this, I also could got `left_fit` and `right_fit` to compute polynomial curve. Following is the image after applying this method. (But, I applied this on the same image I used for sliding window, because I don't have "next flame" of this image.)
+
+![alt text][image10]
+
+
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
