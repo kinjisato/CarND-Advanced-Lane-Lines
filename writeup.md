@@ -148,11 +148,18 @@ for window in range(nwindows):
         rightx_current = np.int(np.mean(nonzerox[good_right_inds]))
 ```
 
-And, the polynomial lines are computed with using following function `np.polyfit(y, x, 2)`, the order is 2nd.
+And, the polynomial lines are computed with using following function `np.polyfit()`, the order is 2nd.
 
 ```python
 left_fit = np.polyfit(lefty, leftx, 2)
 right_fit = np.polyfit(righty, rightx, 2)
+```
+
+`left_fit` and `right_fit` return x position from y position in the image.
+
+```python
+left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
 ```
 
 The result of sliding window method is,
@@ -191,6 +198,7 @@ ploty = np.linspace(0, binary_warped.shape[0]-1, binary_warped.shape[0] )
 left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
 right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
 ```
+
 With using this, I also could got `left_fit` and `right_fit` to compute polynomial curve. Following is the image after applying this method. (But, I applied this on the same image I used for sliding window, because I don't have "next flame" of this image.)
 
 ![alt text][image10]
@@ -199,7 +207,48 @@ With using this, I also could got `left_fit` and `right_fit` to compute polynomi
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+I had curvature of left and right lane lines. So, I computed the "center" of both two lines. I computed `center_fitx` by following code.
+
+```python
+# add center
+center_fitx = (left_fitx + right_fitx) / 2.0
+```
+
+After I get `center_fitx`, the method is the same as computing the curvature of left and right lane.
+
+`center_fitx[-1]` is the value of mid point of 2 lanes at bottom of image. 
+So comparing this value with the midpoint of image (center of the car), I could get of offset value.
+
+
+The method to compute the radius of curvature is the same as lecture video.
+
+```python
+y_eval = np.max(ploty)
+
+# Define conversions in x and y from pixels space to meters
+ym_per_pix = 30/720 # meters per pixel in y dimension
+xm_per_pix = 3.7/700 # meters per pixel in x dimension
+
+# Fit new polynomials to x,y in world space
+left_fit_cr = np.polyfit(ploty*ym_per_pix, left_fitx*xm_per_pix, 2)
+right_fit_cr = np.polyfit(ploty*ym_per_pix, right_fitx*xm_per_pix, 2)
+center_fit_cr = np.polyfit(ploty*ym_per_pix, center_fitx*xm_per_pix, 2)
+# Calculate the new radii of curvature
+left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+center_curverad = ((1 + (2*center_fit_cr[0]*y_eval*ym_per_pix + center_fit_cr[1])**2)**1.5) / np.absolute(2*center_fit_cr[0])
+# Now our radius of curvature is in meters
+#print(left_curverad, 'm', center_curverad, 'm', right_curverad, 'm')
+print('Radius of carvature = {0} m'.format(int(center_curverad)))
+
+# cal car offset
+car_offset = (center_fitx[-1] - midpoint) * xm_per_pix
+if car_offset < 0:
+    print('Vehicle is {0:.2} m left of center'.format(np.absolute(car_offset)))
+else:
+    print('Vehicle is {0:.2} m right of center'.format(np.absolute(car_offset)))
+```
+
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
